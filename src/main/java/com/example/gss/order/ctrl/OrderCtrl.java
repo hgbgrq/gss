@@ -1,5 +1,7 @@
 package com.example.gss.order.ctrl;
 
+import com.example.gss.order.dto.req.OrderReqDto;
+import com.example.gss.order.dto.res.OrderResListDto;
 import com.example.gss.order.svc.OrderSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,4 +20,13 @@ public class OrderCtrl {
     public ResponseEntity<String> test(){
         return new ResponseEntity<>(orderSvc.test(),HttpStatus.OK);
     }
+
+    @GetMapping
+    public ResponseEntity<OrderResListDto> getOrderList(OrderReqDto orderReqDto){
+        OrderResListDto result = orderSvc.selectOrderList(orderReqDto);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    
+
 }

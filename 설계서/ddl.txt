@@ -1,0 +1,38 @@
+create table tb_order(
+	order_id varchar(40) primary key
+	, order_org_id varchar(40)
+	, order_use_yn varchar(40)
+	, order_ordering_date date
+	, order_dead_line_date date
+	, order_create_date datetime
+	, order_create_user_id varchar(40)
+	, order_update_date datetime
+	, order_update_id varchar(40)
+);
+
+create table tb_order_file(
+	order_file_id varchar(40) primary key
+	, order_file_name varchar(40)
+	, order_file_path varchar(40)
+	, order_file_use_yn varchar(40)
+	, order_file_create_date datetime 
+	, order_file_create_user_id varchar(40)
+	, order_file_update_date datetime 
+	, order_file_update_user_id varchar(40)
+);
+
+create table tb_product(
+	product_id varchar(40) primary key
+	, product_style_no varchar(40)
+	, product_item varchar(40)
+	, product_size varchar(40)
+	, product_color varchar(40)
+	, product_qty varchar(40)
+	, product_price varchar(40)
+	, product_etc varchar(40)
+	, product_use_yn varchar(40)
+	, product_create_date datetime 
+	, product_create_user_id varchar(40)
+	, product_update_date datetime 
+	, product_update_user_id varchar(40)
+);
