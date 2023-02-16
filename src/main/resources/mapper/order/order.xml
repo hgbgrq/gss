@@ -29,8 +29,8 @@
             TB_ORDER
     </select>
 
-    <select id = "selectOrders" parameterType="com.example.gss.order.dto.req.OrderReqDto"
-            resultType="com.example.gss.order.dto.OrderModel">
+    <select id = "selectOrders" resultType="com.example.gss.order.dto.OrderModel"
+            parameterType="com.example.gss.order.dto.req.OrderReqDto">
         SELECT
             TOR.ORDER_ID AS ORD_ID
             , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE

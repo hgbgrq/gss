@@ -14,6 +14,22 @@ public class OrderResListDto {
 
     private List<OrderModel> list;
 
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public List<OrderModel> getList() {
+        return list;
+    }
+
+    public void setList(List<OrderModel> list) {
+        this.list = list;
+    }
+
     public String toStringJson() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }

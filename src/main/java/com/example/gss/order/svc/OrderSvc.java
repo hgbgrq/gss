@@ -28,7 +28,6 @@ public class OrderSvc {
         Integer totalCount = orderDao.selectOrdersCount(orderReqDto);
         result.setList(list);
         result.setTotalCount(totalCount);
-        log.info(result.toStringJson());
         return result;
     }
 
