@@ -2,17 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.example.gss.order.dao.OrderDao">
 
-    <select id = "test" resultType="java.lang.String">
-        SELECT
-            ORDER_ID
-        FROM
-            TB_ORDER
-    </select>
-
-    <resultMap id="orderMap" type="com.example.gss.order.dto.OrderModel">
+    <resultMap id="orderDetailMap" type="com.example.gss.order.dto.res.OrderResDetailDto">
         <result column="ORD_ID" property="orderId" javaType="string"/>
         <result column="ORG_ID" property="orgId" javaType="string"/>
         <result column="ORG_NAME" property="orgName" javaType="string"/>
+        <result column="ORD_ORDERING_DATE" property="ordOrderingDate" javaType="string"/>
+        <result column="ORD_FILE_ID" property="ordFileId" javaType="string"/>
+        <result column="ORD_FILE_NAME" property="ordFileName" javaType="string"/>
+        <result column="ORD_DEAD_LINE_DATE" property="ordDeadLineDate" javaType="string"/>
         <collection property="list" ofType="com.example.gss.order.dto.OrderProductModel">
             <result column="PRD_ID" property="prdId" javaType="string"/>
             <result column="PRD_STYLE_NO" property="prdStyleNo" javaType="string"/>
@@ -24,27 +21,64 @@
             <result column="PRD_ETC" property="prdEtc" javaType="string"/>
         </collection>
     </resultMap>
-    <select id = "selectOrders" parameterType="com.example.gss.order.dto.req.OrderReqDto"
-            resultMap="orderMap">
+
+    <select id = "test" resultType="java.lang.String">
         SELECT
-            TOR.ORDER_ID AS ORD_ID
-            , TOR.ORDER_ORG_ID AS ORG_ID
-            , ORG.ORG_NAME  AS ORG_NAME
-            , TP.PRODUCT_ID AS PRD_ID
-            , TP.PRODUCT_STYLE_NO AS PRD_STYLE_NO
-            , TP.PRODUCT_ITEM AS PRD_ITEM
-            , TP.PRODUCT_SIZE AS PRD_SIZE
-            , TP.PRODUCT_COLOR AS PRD_COLOR
-            , TP.PRODUCT_QTY  AS PRD_QTY
-            , TP.PRODUCT_PRICE AS PRD_PRC
-            , TP.PRODUCT_ETC AS PRD_ETC
+            ORDER_ID
         FROM
-            TB_ORDER TOR
-                LEFT JOIN TB_PRODUCT TP
-                          ON TP.ORDER_ID = TOR.ORDER_ID
-                LEFT JOIN TB_ORGANIZATION ORG
-                          ON ORG.ORG_ID = TOR.ORDER_ID
+            TB_ORDER
     </select>
 
+    <select id = "selectOrders" parameterType="com.example.gss.order.dto.req.OrderReqDto"
+            resultType="com.example.gss.order.dto.OrderModel">
+        SELECT
+            TOR.ORDER_ID AS ORD_ID
+            , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE
+            , TOR.ORDER_ORG_ID AS ORG_ID
+            , ORG.ORG_NAME  AS ORG_NAME
+        FROM
+            TB_ORDER TOR
+            LEFT JOIN TB_ORGANIZATION ORG
+                ON ORG.ORG_ID = TOR.ORDER_ID
+    </select>
+
+    <select id ="selectOrdersCount" resultType="java.lang.Integer"
+            parameterType="com.example.gss.order.dto.req.OrderReqDto">
+        SELECT
+            COUNT(TOR.ORDER_ID)
+        FROM
+            TB_ORDER TOR
+            LEFT JOIN TB_ORGANIZATION ORG
+                ON ORG.ORG_ID = TOR.ORDER_ID
+    </select>
+
+    <select id ="selectDetailOrder" parameterType="java.lang.String" resultMap="orderDetailMap">
+        SELECT
+            TOR.ORDER_ID AS ORD_ID
+             , TOR.ORDER_ORG_ID AS ORG_ID
+             , ORG.ORG_NAME  AS ORG_NAME
+             , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE
+             , TOR.ORDER_DEAD_LINE_DATE AS ORD_DEAD_LINE_DATE
+             , TOR.ORDER_FILE_ID AS ORD_FILE_ID
+             , TOF.ORDER_FILE_NAME AS ORD_FILE_NAME
+             , TP.PRODUCT_ID AS PRD_ID
+             , TP.PRODUCT_STYLE_NO AS PRD_STYLE_NO
+             , TP.PRODUCT_ITEM AS PRD_TIEM
+             , TP.PRODUCT_SIZE AS PRD_SIZE
+             , TP.PRODUCT_COLOR AS PRD_COLOR
+             , TP.PRODUCT_QTY  AS PRD_QTY
+             , TP.PRODUCT_PRICE AS PRD_PRC
+             , TP.PRODUCT_ETC AS PRD_ETC
+        FROM
+            TB_ORDER TOR
+            LEFT JOIN TB_PRODUCT TP
+                ON TP.ORDER_ID = TOR.ORDER_ID
+            LEFT JOIN TB_ORGANIZATION ORG
+                ON ORG.ORG_ID = TOR.ORDER_ID
+            LEFT JOIN TB_ORDER_FILE TOF
+                ON TOF.ORDER_FILE_ID = TOR.ORDER_FILE_ID
+        WHERE
+            TOR.ORDER_ID = #{ordId}
+    </select>
 
 </mapper>

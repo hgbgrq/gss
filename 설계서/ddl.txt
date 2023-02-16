@@ -1,5 +1,6 @@
 create table tb_order(
 	order_id varchar(40) primary key
+	, order_file_id varchar(40)
 	, order_org_id varchar(40)
 	, order_use_yn varchar(40)
 	, order_ordering_date date
@@ -23,6 +24,7 @@ create table tb_order_file(
 
 create table tb_product(
 	product_id varchar(40) primary key
+	, order_id varchar(40)
 	, product_style_no varchar(40)
 	, product_item varchar(40)
 	, product_size varchar(40)
@@ -36,3 +38,12 @@ create table tb_product(
 	, product_update_date datetime 
 	, product_update_user_id varchar(40)
 );
+
+create table tb_organization(
+	org_id varchar(40) primary key
+	, org_name varchar(40)
+	, org_address varchar(40)
+	, org_number varchar(40)
+	, org_pax_number varchar(40)
+);
+

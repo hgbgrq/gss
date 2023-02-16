@@ -1,12 +1,14 @@
 package com.example.gss.order.ctrl;
 
 import com.example.gss.order.dto.req.OrderReqDto;
+import com.example.gss.order.dto.res.OrderResDetailDto;
 import com.example.gss.order.dto.res.OrderResListDto;
 import com.example.gss.order.svc.OrderSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,10 @@ public class OrderCtrl {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-    
+    @GetMapping("/{ordId}")
+    public ResponseEntity<OrderResDetailDto> getOrderDetail(@PathVariable String ordId){
+        OrderResDetailDto result = orderSvc.selectOrderDetail(ordId);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
 
 }
