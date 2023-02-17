@@ -4,6 +4,8 @@ import com.example.gss.order.dto.req.OrderReqDto;
 import com.example.gss.order.dto.res.OrderResDetailDto;
 import com.example.gss.order.dto.res.OrderResListDto;
 import com.example.gss.order.svc.OrderSvc;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/order")
+@Tag(name = "07. 권한 컨트롤러")
 public class OrderCtrl {
 
     @Autowired
@@ -23,6 +26,7 @@ public class OrderCtrl {
         return new ResponseEntity<>(orderSvc.test(),HttpStatus.OK);
     }
 
+    @Operation(summary = "주문 조회")
     @GetMapping
     public ResponseEntity<OrderResListDto> getOrderList(OrderReqDto orderReqDto){
         OrderResListDto result = orderSvc.selectOrderList(orderReqDto);
