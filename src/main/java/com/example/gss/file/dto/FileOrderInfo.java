@@ -13,4 +13,6 @@ public class FileOrderInfo {
 
     private String deadLineDate;
 
+    private List<FileProduct> products;
+
 }

@@ -1,6 +1,8 @@
 package com.example.gss.file.dto;
 
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Data
 public class FileProduct {
@@ -14,5 +16,9 @@ public class FileProduct {
     private String color;
 
     private String qty;
+
+    public String toStringJson() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
 
 }
