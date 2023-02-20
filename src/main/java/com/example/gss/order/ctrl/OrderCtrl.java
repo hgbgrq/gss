@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/order")
-@Tag(name = "07. 권한 컨트롤러")
+@Tag(name = "발주")
 public class OrderCtrl {
 
     @Autowired

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.example.gss.file.dao.FileDao">
+
+    <select id = "selectOrgInfos" parameterType="java.lang.String"
+            resultType="com.example.gss.file.dto.FileOrganization">
+        SELECT
+            ORG_ID
+            , ORG_NAME
+        FROM
+            TB_ORGANIZATION
+        WHERE
+            ORG_NAME LIKE CONCAT('%', #{orgTmpNm} , '%')
+    </select>
+
+
+</mapper>
