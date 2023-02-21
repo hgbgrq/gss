@@ -38,7 +38,7 @@ public class FileCtrl {
 
     @GetMapping("{fileId}")
     public ResponseEntity<FileDetailRes> getFileDetail(@PathVariable String fileId){
-        FileDetailRes result = new FileDetailRes();
+        FileDetailRes result = fileSvc.selectFileDetail(fileId);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 

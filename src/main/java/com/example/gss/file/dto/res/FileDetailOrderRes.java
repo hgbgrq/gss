@@ -7,8 +7,6 @@ import java.util.List;
 @Data
 public class FileDetailOrderRes {
 
-    private String ordId;
-
     private String orgId;
 
     private String orgName;

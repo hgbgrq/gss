@@ -1,6 +1,7 @@
 package com.example.gss.file.dao;
 
 import com.example.gss.file.dto.FileEnroll;
+import com.example.gss.file.dto.res.FileDetailOrderRes;
 import com.example.gss.file.dto.res.FileDetailRes;
 import com.example.gss.file.dto.res.FileOrganization;
 import com.example.gss.file.dto.res.FileRes;
@@ -20,5 +21,7 @@ public interface FileDao {
     Integer selectFilesCount();
 
     FileDetailRes selectFileDetail(String fileId);
+
+    List<FileDetailOrderRes> selectFileDetailOrders(String fileId);
 
 }

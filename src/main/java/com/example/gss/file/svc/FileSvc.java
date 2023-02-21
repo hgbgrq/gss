@@ -165,7 +165,9 @@ public class FileSvc {
 
         FileDetailRes result = fileDao.selectFileDetail(fileId);
 
+        List<FileDetailOrderRes> orders = fileDao.selectFileDetailOrders(fileId);
 
+        result.setList(orders);
 
         return result;
     }
