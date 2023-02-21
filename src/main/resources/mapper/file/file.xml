@@ -3,7 +3,7 @@
 <mapper namespace = "com.example.gss.file.dao.FileDao">
 
     <select id = "selectOrgInfos" parameterType="java.lang.String"
-            resultType="com.example.gss.file.dto.FileOrganization">
+            resultType="com.example.gss.file.dto.res.FileOrganization">
         SELECT
             ORG_ID
             , ORG_NAME
@@ -13,5 +13,33 @@
             ORG_NAME LIKE CONCAT('%', #{orgTmpNm} , '%')
     </select>
 
+    <insert id="insertFile" parameterType="com.example.gss.file.dto.FileEnroll">
+        INSERT INTO TB_FILE(
+             FILE_ID
+            , FILE_NAME
+            , FILE_PATH
+            , FILE_USE_YN)
+        VALUES(
+             #{fileId}
+            , #{fileName}
+            , #{filePath}
+            , 'Y'
+            )
+    </insert>
+
+    <select id = "selectFiles" resultType="com.example.gss.file.dto.res.FileRes">
+            SELECT
+                FILE_ID
+                , FILE_NAME
+            FROM
+                TB_FILE
+    </select>
+
+    <select id="selectFilesCount" resultType="java.lang.Integer">
+            SELECT
+                COUNT(1)
+            WHERE
+                TB_FILE
+    </select>
 
 </mapper>

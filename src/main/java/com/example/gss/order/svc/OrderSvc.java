@@ -1,15 +1,20 @@
 package com.example.gss.order.svc;
 
 import com.example.gss.order.dao.OrderDao;
-import com.example.gss.order.dto.req.OrderReqDto;
+import com.example.gss.order.dto.OrderProductModel;
+import com.example.gss.order.dto.req.OrderEnrollInfoReq;
+import com.example.gss.order.dto.req.OrderEnrollProductReq;
+import com.example.gss.order.dto.req.OrderEnrollReq;
+import com.example.gss.order.dto.req.OrderReq;
 import com.example.gss.order.dto.OrderModel;
-import com.example.gss.order.dto.res.OrderResDetailDto;
-import com.example.gss.order.dto.res.OrderResListDto;
+import com.example.gss.order.dto.res.OrderResDetail;
+import com.example.gss.order.dto.res.OrderResList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -22,18 +27,52 @@ public class OrderSvc {
         return orderDao.test();
     }
 
-    public OrderResListDto selectOrderList(OrderReqDto orderReqDto){
-        OrderResListDto result = new OrderResListDto();
-        List<OrderModel> list = orderDao.selectOrders(orderReqDto);
-        Integer totalCount = orderDao.selectOrdersCount(orderReqDto);
+    public OrderResList selectOrderList(OrderReq orderReq){
+        OrderResList result = new OrderResList();
+        List<OrderModel> list = orderDao.selectOrders(orderReq);
+        Integer totalCount = orderDao.selectOrdersCount(orderReq);
         result.setList(list);
         result.setTotalCount(totalCount);
         return result;
     }
 
-    public OrderResDetailDto selectOrderDetail(String orderId){
-        OrderResDetailDto result = orderDao.selectDetailOrder(orderId);
+    public OrderResDetail selectOrderDetail(String orderId){
+        OrderResDetail result = orderDao.selectDetailOrder(orderId);
         return result;
+    }
+
+    public void insertOrderInfo(List<OrderEnrollReq> OrderEnrolls){
+        for(OrderEnrollReq dto : OrderEnrolls){
+            List<OrderEnrollInfoReq> orders  = dto.getList();
+
+            for(OrderEnrollInfoReq order : orders){
+                OrderModel orderModel = new OrderModel();
+                String ordId = UUID.randomUUID().toString();
+                orderModel.setFileId(dto.getFileId());
+                orderModel.setOrdOrderingDate(order.getOrderingDate());
+                orderModel.setOrdId(ordId);
+                orderModel.setOrgId(order.getOrgId());
+                orderModel.setDeadLineDate(order.getDeadLineDate());
+                orderDao.insertOrder(orderModel);
+
+                List<OrderEnrollProductReq> products = order.getProductList();
+                for(OrderEnrollProductReq product: products){
+                    OrderProductModel orderProductModel = new OrderProductModel();
+                    String prdId = UUID.randomUUID().toString();
+                    orderProductModel.setPrdId(prdId);
+                    orderProductModel.setOrdId(ordId);
+                    orderProductModel.setPrdStyleNo(product.getStyleNo());
+                    orderProductModel.setPrdItem(product.getItem());
+                    orderProductModel.setPrdSize(product.getSize());
+                    orderProductModel.setPrdColor(product.getColor());
+                    orderProductModel.setPrdQty(product.getQty());
+                    orderProductModel.setPrdPrc(product.getPrc());
+                    orderProductModel.setPrdEtc(product.getEtc());
+                    orderDao.insertOrderProduct(orderProductModel);
+                }
+
+            }
+        }
     }
 
 

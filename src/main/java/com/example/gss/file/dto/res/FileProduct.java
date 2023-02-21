@@ -1,4 +1,4 @@
-package com.example.gss.file.dto;
+package com.example.gss.file.dto.res;
 
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;

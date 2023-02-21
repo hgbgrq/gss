@@ -3,7 +3,7 @@ package com.example.gss.order.dto.req;
 import lombok.Data;
 
 @Data
-public class OrderReqDto {
+public class OrderReq {
 
     private String keyword;
 

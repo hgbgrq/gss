@@ -11,6 +11,8 @@ public class OrderModel {
     private String orgId;
     private String orgName;
     private String ordOrderingDate;
+    private String deadLineDate;
+    private String fileId;
 
     public String getOrdId() {
         return ordId;
@@ -42,6 +44,22 @@ public class OrderModel {
 
     public void setOrdOrderingDate(String ordOrderingDate) {
         this.ordOrderingDate = ordOrderingDate;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getDeadLineDate() {
+        return deadLineDate;
+    }
+
+    public void setDeadLineDate(String deadLineDate) {
+        this.deadLineDate = deadLineDate;
     }
 
     public String toStringJson() {

@@ -1,8 +1,9 @@
 package com.example.gss.order.dao;
 
-import com.example.gss.order.dto.req.OrderReqDto;
+import com.example.gss.order.dto.OrderProductModel;
+import com.example.gss.order.dto.req.OrderReq;
 import com.example.gss.order.dto.OrderModel;
-import com.example.gss.order.dto.res.OrderResDetailDto;
+import com.example.gss.order.dto.res.OrderResDetail;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,10 +12,14 @@ import java.util.List;
 public interface OrderDao {
     String test();
 
-    List<OrderModel> selectOrders(OrderReqDto orderReqDto);
+    List<OrderModel> selectOrders(OrderReq orderReq);
 
-    Integer selectOrdersCount(OrderReqDto orderReqDto);
+    Integer selectOrdersCount(OrderReq orderReq);
 
-    OrderResDetailDto selectDetailOrder(String ordId);
+    OrderResDetail selectDetailOrder(String ordId);
+
+    void insertOrder(OrderModel orderModel);
+
+    void insertOrderProduct(OrderProductModel orderProductModel);
 
 }

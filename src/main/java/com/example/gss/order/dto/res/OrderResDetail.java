@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OrderResDetailDto {
+public class OrderResDetail {
 
     private String orderId;
     private String orgId;

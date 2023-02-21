@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.example.gss.order.dao.OrderDao">
 
-    <resultMap id="orderDetailMap" type="com.example.gss.order.dto.res.OrderResDetailDto">
+    <resultMap id="orderDetailMap" type="com.example.gss.order.dto.res.OrderResDetail">
         <result column="ORD_ID" property="orderId" javaType="string"/>
         <result column="ORG_ID" property="orgId" javaType="string"/>
         <result column="ORG_NAME" property="orgName" javaType="string"/>
@@ -30,7 +30,7 @@
     </select>
 
     <select id = "selectOrders" resultType="com.example.gss.order.dto.OrderModel"
-            parameterType="com.example.gss.order.dto.req.OrderReqDto">
+            parameterType="com.example.gss.order.dto.req.OrderReq">
         SELECT
             TOR.ORDER_ID AS ORD_ID
             , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE
@@ -43,7 +43,7 @@
     </select>
 
     <select id ="selectOrdersCount" resultType="java.lang.Integer"
-            parameterType="com.example.gss.order.dto.req.OrderReqDto">
+            parameterType="com.example.gss.order.dto.req.OrderReq">
         SELECT
             COUNT(TOR.ORDER_ID)
         FROM
@@ -81,4 +81,55 @@
             TOR.ORDER_ID = #{ordId}
     </select>
 
+    <insert id="insertOrder" parameterType="com.example.gss.order.dto.OrderModel">
+        INSERT INTO TB_ORDER(
+                ORDER_ID
+                , FILE_ID
+                , ORDER_ORG_ID
+                , ORDER_USE_YN
+                , ORDER_ORDERING_DATE
+                , ORDER_DEAD_LINE_DATE
+                , ORDER_CREATE_DATE
+                , ORDER_CREATE_ID)
+        VALUES (
+                   #{ordId}
+                   , #{fileId}
+                   , #{orgId}
+                   , 'Y'
+                   , #{ordOrderingDate}
+                   , #{deadLineDate}
+                   , NOW()
+                   , 'ADMIN'
+               )
+    </insert>
+
+    <insert id="insertOrderProduct" parameterType="com.example.gss.order.dto.OrderProductModel">
+        INSERT INTO TB_PRODUCT(
+                PRODUCT_ID
+                , ORDER_ID
+                , PRODUCT_STYLE_NO
+                , PRODUCT_ITEM
+                , PRODUCT_SIZE
+                , PRODUCT_COLOR
+                , PRODUCT_QTY
+                , PRODUCT_PRICE
+                , PRODUCT_ETC
+                , PRODUCT_USE_YN
+                , PRODUCT_CREATE_DATE
+                , PRODUCT_CREATE_USER_ID
+        )VALUES (
+                 #{prdId}
+                 , #{ordId}
+                 , #{prdStyleNo}
+                 , #{prdItem}
+                 , #{prdSize}
+                 , #{prdColor}
+                 , #{prdQty}
+                 , #{prdPrc}
+                 , #{prdEtc}
+                 , 'Y'
+                 , NOW()
+                 , 'ADMIN'
+                )
+    </insert>
 </mapper>
