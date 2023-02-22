@@ -28,18 +28,70 @@
     </insert>
 
     <select id = "selectFiles" resultType="com.example.gss.file.dto.res.FileRes">
-            SELECT
-                FILE_ID
-                , FILE_NAME
-            FROM
-                TB_FILE
+        SELECT
+            FILE_ID
+            , FILE_NAME
+        FROM
+            TB_FILE
     </select>
 
     <select id="selectFilesCount" resultType="java.lang.Integer">
-            SELECT
-                COUNT(1)
-            WHERE
-                TB_FILE
+        SELECT
+            COUNT(1)
+        WHERE
+            TB_FILE
+    </select>
+
+    <select id="selectFileDetail" parameterType="java.lang.String"
+            resultType="com.example.gss.file.dto.res.FileDetailRes">
+        SELECT
+            FILE_ID
+            , FILE_NAME
+        FROM
+            TB_FILE
+        WHERE
+            FILE_ID = #{fileId}
+    </select>
+
+    <resultMap id="orderFileDetailMap" type="com.example.gss.file.dto.res.FileDetailOrderRes">
+        <result column="ORG_ID" property="orgId" javaType="string"/>
+        <result column="ORG_NAME" property="orgName" javaType="string"/>
+        <result column="ORD_ORDERING_DATE" property="orderingDate" javaType="string"/>
+        <result column="ORD_DEAD_LINE_DATE" property="deadLineDate" javaType="string"/>
+        <collection property="list" ofType="com.example.gss.file.dto.res.FileDetailProduct">
+            <result column="PRD_STYLE_NO" property="prdStyleNo" javaType="string"/>
+            <result column="PRD_ITEM" property="prdItem" javaType="string"/>
+            <result column="PRD_SIZE" property="prdSize" javaType="string"/>
+            <result column="PRD_COLOR" property="prdColor" javaType="string"/>
+            <result column="PRD_QTY" property="prdQty" javaType="string"/>
+            <result column="PRD_PRC" property="prdPrc" javaType="string"/>
+            <result column="PRD_ETC" property="prdEtc" javaType="string"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectFileDetailOrders" parameterType="java.lang.String"
+            resultMap="orderDetailMap">
+        SELECT
+            TOR.ORDER_ORG_ID AS ORG_ID
+             , TON.ORG_NAME  AS ORG_NAME
+             , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE
+             , TOR.ORDER_DEAD_LINE_DATE AS ORD_DEAD_LINE_DATE
+             , TP.PRODUCT_STYLE_NO AS prd_style_no
+             , TP.PRODUCT_ITEM AS prd_tiem
+             , TP.PRODUCT_SIZE AS prd_size
+             , TP.PRODUCT_COLOR AS prd_color
+             , TP.PRODUCT_QTY  AS prd_qty
+             , TP.PRODUCT_PRICE AS prd_prc
+             , TP.PRODUCT_ETC AS prd_etc
+
+        FROM
+            TB_ORDER TOR
+                LEFT JOIN TB_ORGANIZATION TON
+                          ON TOR.ORDER_ORG_ID = TON.ORG_ID
+                LEFT JOIN TB_PRODUCT TP
+                          ON TP.ORDER_ID = TOR.ORDER_ID
+        WHERE
+            TOR.FILE_ID = #{fileId};
     </select>
 
 </mapper>
