@@ -1,6 +1,8 @@
 package com.example.gss.order.dto.req;
 
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Data
 public class OrderReq {
@@ -9,19 +11,7 @@ public class OrderReq {
 
     private String keywordType;
 
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public String getKeywordType() {
-        return keywordType;
-    }
-
-    public void setKeywordType(String keywordType) {
-        this.keywordType = keywordType;
+    public String toStringJson() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
 }

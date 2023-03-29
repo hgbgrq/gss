@@ -22,4 +22,6 @@ public interface OrderDao {
 
     void insertOrderProduct(OrderProductModel orderProductModel);
 
+    void updateFileTmpYn(String fileId);
+
 }

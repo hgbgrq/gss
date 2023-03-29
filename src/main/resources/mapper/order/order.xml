@@ -59,8 +59,8 @@
              , ORG.ORG_NAME  AS ORG_NAME
              , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE
              , TOR.ORDER_DEAD_LINE_DATE AS ORD_DEAD_LINE_DATE
-             , TOR.ORDER_FILE_ID AS ORD_FILE_ID
-             , TOF.ORDER_FILE_NAME AS ORD_FILE_NAME
+             , TOR.FILE_ID AS ORD_FILE_ID
+             , TOF.FILE_NAME AS ORD_FILE_NAME
              , TP.PRODUCT_ID AS PRD_ID
              , TP.PRODUCT_STYLE_NO AS PRD_STYLE_NO
              , TP.PRODUCT_ITEM AS PRD_TIEM
@@ -75,8 +75,8 @@
                 ON TP.ORDER_ID = TOR.ORDER_ID
             LEFT JOIN TB_ORGANIZATION ORG
                 ON ORG.ORG_ID = TOR.ORDER_ID
-            LEFT JOIN TB_ORDER_FILE TOF
-                ON TOF.ORDER_FILE_ID = TOR.ORDER_FILE_ID
+            LEFT JOIN TB_FILE TOF
+                ON TOF.FILE_ID = TOR.FILE_ID
         WHERE
             TOR.ORDER_ID = #{ordId}
     </select>
@@ -90,7 +90,7 @@
                 , ORDER_ORDERING_DATE
                 , ORDER_DEAD_LINE_DATE
                 , ORDER_CREATE_DATE
-                , ORDER_CREATE_ID)
+                , order_create_user_id)
         VALUES (
                    #{ordId}
                    , #{fileId}
@@ -132,4 +132,10 @@
                  , 'ADMIN'
                 )
     </insert>
+
+    <update id ="updateFileTmpYn" parameterType="java.lang.String">
+        UPDATE TB_FILE
+            SET TMP_YN = 'N'
+            WHERE FILE_ID = #{fileId}
+    </update>
 </mapper>

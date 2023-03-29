@@ -19,5 +19,4 @@ public class FileDetailProduct {
 
     private String prdEtc;
 
-
 }

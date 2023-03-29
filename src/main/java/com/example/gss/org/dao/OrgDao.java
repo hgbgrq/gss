@@ -9,7 +9,6 @@ import java.util.List;
 @Mapper
 public interface OrgDao {
 
-
     List<OrgRes> selectOrgList(OrgReq orgReq);
 
     Integer selectOrgCount(OrgReq orgReq);

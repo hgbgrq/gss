@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.example.gss.file.dao.FileDao">
 
+    <resultMap id="orderFileDetailMap" type="com.example.gss.file.dto.res.FileDetailOrderRes">
+        <result column="ORG_ID" property="orgId" javaType="string"/>
+        <result column="ORG_NAME" property="orgName" javaType="string"/>
+        <result column="ORD_ORDERING_DATE" property="orderingDate" javaType="string"/>
+        <result column="ORD_DEAD_LINE_DATE" property="deadLineDate" javaType="string"/>
+        <collection property="productList" ofType="com.example.gss.file.dto.res.FileDetailProduct">
+            <result column="PRD_STYLE_NO" property="prdStyleNo" javaType="string"/>
+            <result column="PRD_ITEM" property="prdItem" javaType="string"/>
+            <result column="PRD_SIZE" property="prdSize" javaType="string"/>
+            <result column="PRD_COLOR" property="prdColor" javaType="string"/>
+            <result column="PRD_QTY" property="prdQty" javaType="string"/>
+            <result column="PRD_PRC" property="prdPrc" javaType="string"/>
+            <result column="PRD_ETC" property="prdEtc" javaType="string"/>
+        </collection>
+    </resultMap>
+
     <select id = "selectOrgInfos" parameterType="java.lang.String"
             resultType="com.example.gss.file.dto.res.FileOrganization">
         SELECT
@@ -18,11 +34,13 @@
              FILE_ID
             , FILE_NAME
             , FILE_PATH
-            , FILE_USE_YN)
+            , FILE_USE_YN
+            , TMP_YN)
         VALUES(
              #{fileId}
             , #{fileName}
             , #{filePath}
+            , 'Y'
             , 'Y'
             )
     </insert>
@@ -33,13 +51,21 @@
             , FILE_NAME
         FROM
             TB_FILE
+        WHERE
+            1=1
+            AND
+            TMP_YN = 'N'
     </select>
 
     <select id="selectFilesCount" resultType="java.lang.Integer">
         SELECT
             COUNT(1)
-        WHERE
+        FROM
             TB_FILE
+        WHERE
+            1=1
+            AND
+            TMP_YN ='N'
     </select>
 
     <select id="selectFileDetail" parameterType="java.lang.String"
@@ -53,37 +79,20 @@
             FILE_ID = #{fileId}
     </select>
 
-    <resultMap id="orderFileDetailMap" type="com.example.gss.file.dto.res.FileDetailOrderRes">
-        <result column="ORG_ID" property="orgId" javaType="string"/>
-        <result column="ORG_NAME" property="orgName" javaType="string"/>
-        <result column="ORD_ORDERING_DATE" property="orderingDate" javaType="string"/>
-        <result column="ORD_DEAD_LINE_DATE" property="deadLineDate" javaType="string"/>
-        <collection property="list" ofType="com.example.gss.file.dto.res.FileDetailProduct">
-            <result column="PRD_STYLE_NO" property="prdStyleNo" javaType="string"/>
-            <result column="PRD_ITEM" property="prdItem" javaType="string"/>
-            <result column="PRD_SIZE" property="prdSize" javaType="string"/>
-            <result column="PRD_COLOR" property="prdColor" javaType="string"/>
-            <result column="PRD_QTY" property="prdQty" javaType="string"/>
-            <result column="PRD_PRC" property="prdPrc" javaType="string"/>
-            <result column="PRD_ETC" property="prdEtc" javaType="string"/>
-        </collection>
-    </resultMap>
-
     <select id="selectFileDetailOrders" parameterType="java.lang.String"
-            resultMap="orderDetailMap">
+            resultMap="orderFileDetailMap">
         SELECT
             TOR.ORDER_ORG_ID AS ORG_ID
              , TON.ORG_NAME  AS ORG_NAME
              , TOR.ORDER_ORDERING_DATE AS ORD_ORDERING_DATE
              , TOR.ORDER_DEAD_LINE_DATE AS ORD_DEAD_LINE_DATE
-             , TP.PRODUCT_STYLE_NO AS prd_style_no
-             , TP.PRODUCT_ITEM AS prd_tiem
-             , TP.PRODUCT_SIZE AS prd_size
-             , TP.PRODUCT_COLOR AS prd_color
-             , TP.PRODUCT_QTY  AS prd_qty
-             , TP.PRODUCT_PRICE AS prd_prc
+             , TP.PRODUCT_STYLE_NO AS PRD_STYLE_NO
+             , TP.PRODUCT_ITEM AS PRD_ITEM
+             , TP.PRODUCT_SIZE AS PRD_SIZE
+             , TP.PRODUCT_COLOR AS PRD_COLOR
+             , TP.PRODUCT_QTY  AS PRD_QTY
+             , TP.PRODUCT_PRICE AS PRD_ETC
              , TP.PRODUCT_ETC AS prd_etc
-
         FROM
             TB_ORDER TOR
                 LEFT JOIN TB_ORGANIZATION TON

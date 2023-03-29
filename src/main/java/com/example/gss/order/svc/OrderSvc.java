@@ -72,6 +72,7 @@ public class OrderSvc {
                 }
 
             }
+            orderDao.updateFileTmpYn(dto.getFileId());
         }
     }
 

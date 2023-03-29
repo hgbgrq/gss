@@ -3,7 +3,7 @@ package com.example.gss.org.dto.res;
 import lombok.Data;
 
 @Data
-public class OrgRes {
+public class OrgDetailRes {
 
     private String orgId;
 
