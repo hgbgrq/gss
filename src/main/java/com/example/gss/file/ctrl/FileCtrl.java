@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 @Tag(name = "발주서 관리")
 public class FileCtrl {
 
@@ -23,7 +23,7 @@ public class FileCtrl {
     private FileSvc fileSvc;
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<FileOrderInfoResList>> uploadOrderExcel(@RequestPart List<MultipartFile> files) throws Exception {
+    public ResponseEntity<List<FileOrderInfoResList>> uploadOrderExcel(@RequestPart(value="file") List<MultipartFile> files) throws Exception {
 
         List<FileOrderInfoResList> result = fileSvc.orderExcelUpload(files);
 
